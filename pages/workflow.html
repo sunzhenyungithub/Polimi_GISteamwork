@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<!--
+	Twenty by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Tirano</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../assets/css/main.css" />
+		<link rel="stylesheet" href="../assets/css/custom-styles.css" />
+		<link rel="stylesheet" href="../assets/css/image.css" />
+	</head>
+	<body class="left-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<div id="header">
+
+					<!-- Inner -->
+						<div class="inner">
+							<header>
+								<h1><a href="../index.html" id="logo">Tirano</a></h1>
+							</header>
+						</div>
+
+					<!-- Nav -->
+					<nav id="nav">
+						<ul>
+							<li><a href="../index.html">Home</a></li>
+							<li><a href="workflow.html">Workflow</a></li>
+							<li><a href="results.html">Results</a></li>
+							<li><a href="webgis.html">WebGIS</a></li>
+						</ul>
+					</nav>
+
+				</div>
+			<!-- Main -->
+				<div class="wrapper style1">
+
+					<div class="container">
+						<article id="main" class="special">
+							<header>
+								<h2>Workflow</h2>
+								<p>
+								The analysis of landslide susceptibility involved different factors of environment for the raw data, we need to process them in professional ways based on the GIS theory.
+									<br>
+									<img src="../images/study%20area.png" class="col-md-8" style="justify-content: space-around">
+									<br>
+								Here are the data process workflow as following.
+								<br>
+									<b>Data preparation:</b> DTM, DUSAF, population distribution, NDVI, vector layers: roads, rivers, and landslide inventory.
+									<ul><br>
+										<div style="display: flex; gap: 0.2px;">
+											<a href="../images/DTM.png" ><img id="DTM" src="../images/DTM.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/NDVI.png"><img src="../images/NDVI.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/DUSAF.png"><img src="../images/DUSAF.png" alt=""  style="width: 70%;"/></a>
+										</div>
+											<div style="display: flex; gap: 0.2px;">
+												<a href="../images/river_buffer.png"><img src="../images/river_buffer.png" alt=""  style="width: 70%;"/></a>
+												<a href="../images/road_buffer.png" ><img src="../images/road_buffer.png" alt="" style="width: 70%;"/></a>
+												<a href="../images/fault_buffer.png"><img src="../images/fault_buffer.png" alt="" style="width: 70%;"/></a>
+											</div>
+										</ul>
+								</p>
+							</header>
+							<article>
+								<header>
+									<h2>Preprocessing data</h2>
+								</header>
+								<h3>
+									Step 1: data coordination
+								</h3>
+								<p>
+									Clip all layers, resample all layers according to DTM resolution, reproject layer into EPSG:32632, rasterize all vector layers except the landslide inventory layer.
+								</p>
+							</article>
+							<article>
+								<h3>
+									Step 2: layer extraction
+								</h3>
+								<p>
+									Extract factors from the DTM (Aspect, Slope angle, Plan and profile curvatures extraction.
+									<ul><br>
+										<div style="display: flex; gap: 0.2px;">
+												<a href="../images/aspect.png" ><img src="../images/aspect.png" alt=""  style="width: 70%;"/></a>
+												<a href="../images/slope.png"><img src="../images/slope.png" alt=""  style="width: 70%;"/></a>
+											</div>
+											<div style="display: flex; gap: 0.2px;">
+													<a href="../images/plan.png"><img src="../images/plan.png" alt=""  style="width: 70%;"/></a>
+													<a href="../images/profile.png" ><img src="../images/profile.png" alt="" style="width: 70%;"/></a>
+											</div>
+										</ul>
+								</p>
+							</article>
+
+							<article>
+								<h3>
+									Step 3: define and filter NLS area
+								</h3>
+								<p>
+									Depending on the slope angle, filter out the areas probably not landslide and very small area(threshold is 100pixelss), remove NLS areas that overlap with Landslide Inventory.
+								</p>
+							</article>
+
+							<section>
+								<header>
+									<h3><b>Training and test data generation</b></h3>
+									<article>
+										<h3>
+											Step 1: assign value
+										</h3>
+										<p>
+											Create attribute “Hazard” and assign 1 to the NLZ and 2 to the Landslide Inventory
+										</p>
+									</article>
+									<article>
+										<h3>
+											Step 2: data generation and labelling
+										</h3>
+										<p>
+
+Generation 1000 data point and set training data and test data ration as 7/3, in which have same number of hazard=1 and hazard=2.
+										</p>
+										<!-- On rows -->
+											<table class="table-primary">
+										  <thead>
+											<tr>
+												<th scope="col"><b>Train_test</b></th>
+												<th scope="col"><b>Hazard</b></th>
+												<th scope="col"><b>Number of points</b></th>
+											</tr>
+										  </thead>
+										  <tbody>
+											<tr>
+											  <td>Training</td>
+											  <td>1</td>
+											  <td>350</td>
+											</tr>
+											<tr>
+											  <td>Training</td>
+											  <td>2</td>
+											  <td>350</td>
+											</tr>
+											<tr>
+											  <td>Testing</td>
+											  <td>1</td>
+											  <td>150</td>
+											</tr>
+										  <tr>
+											  <td>Testing</td>
+											  <td>2</td>
+											  <td>150</td>
+											</tr>
+										  </tbody>
+										</table>
+									</article>
+								</header>
+
+							</section>
+
+							<section>
+								<header>
+									<h3><b>Susceptibility map generation</b></h3>
+									<article>
+										<h3>
+											Step 1: combine all environmental layer
+										</h3>
+										<p>
+											Build virtual raster in order to take all environmental layers into assessment.
+										</p>
+									</article>
+									<article>
+										<h3>
+											Step 2: generate classification and confidence layer
+										</h3>
+										<p>
+											In Dzetsaka classification tool considering Virtual layer, trainingSamplePoints and “Hazard” to implement random forest.
+										</p>
+										<!-- On rows -->
+									</article>
+									<article>
+										<h3>
+											Step 3: extract susceptibility map
+										</h3>
+										<p>
+											Extract susceptibility map from classification and confidence layer by raster calculator.
+										</p>
+										<ul><br>
+										<div style="display: flex; gap: 0.2px;">
+												<a href="../images/susceptibilityMap_original.png" ><img src="../images/susceptibilityMap_original.png" alt=""  style="width: 70%;"/></a>
+												<a href="../images/susceptibility_reclassified_resampled.png"><img src="../images/susceptibility_reclassified_resampled.png" alt=""  style="width: 70%;"/></a>
+											</div>
+										</ul>
+									</article>
+									<article>
+										<h3>
+											Step 4: result validation
+										</h3>
+										<p>
+											Use script tool: Accuracy Assessment and Sampling to verify the result get the error matrix.
+										</p>
+										<!-- On rows -->
+									</article>
+								</header>
+
+							</section>
+
+									<section>
+								<header>
+									<h3><b>Exposure assessment</b></h3>
+									<article>
+										<h3>
+											Step 1: map reclassification
+										</h3>
+										<p>
+											Reclassify the susceptibility raster map using raster calculator.
+										</p>
+									</article>
+									<article>
+										<h3>
+											Step 2: process needed layers
+										</h3>
+										<p>
+											Resample the reclassified susceptibility raster map and clip the population layer.
+										</p>
+										<!-- On rows -->
+									</article>
+									<article>
+										<h3>
+											Step 3: exposure assessment
+										</h3>
+										<p>
+											Compute the count of each susceptibility class and show them in a chart.
+										</p>
+										<!-- On rows -->
+									</article>
+										<a href="/pages/results.html" class="button btn-info">Results</a>
+								</header>
+
+							</section>
+						</article>
+					</div>
+				</div>
+
+			<!-- Footer -->
+			<div id="footer">
+				<div class="container">
+					<div class="row">
+						<div class="col-12">
+
+
+								<section class="contact">
+									<header>
+										<h3>Resource</h3>
+									</header>
+									<ul class="icons">
+										<li><a href="https://github.com/meicaikourou123/Polimi_GISteamwork.git" class="icon brands fa-github"><span class="label">Github</span></a></li>
+
+									</ul>
+								</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/jquery.dropotron.min.js"></script>
+			<script src="/js/jquery.scrolly.min.js"></script>
+			<script src="/js/jquery.scrollex.min.js"></script>
+			<script src="/js/browser.min.js"></script>
+			<script src="/js/breakpoints.min.js"></script>
+			<script src="/js/util.js"></script>
+			<script src="/js/main.js"></script>
+
+	</body>
+</html>
