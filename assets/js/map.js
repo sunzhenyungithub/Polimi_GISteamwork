@@ -61,9 +61,9 @@ let basemapLayers = new Group({
 let overlayLayers = new Group({
     title: "Overlay Layers",
     layers: [
-        colombiaBoundary, 
-        colombiaDepartments, 
-        colombiaRivers, 
+        colombiaBoundary,
+        colombiaDepartments,
+        colombiaRivers,
         colombiaRoads
     ]
 })
@@ -73,8 +73,8 @@ let map = new Map({
     target: document.getElementById('map'),
     layers: [basemapLayers, overlayLayers],
     view: new View({
-        center: fromLonLat([-74, 4.6]),
-        zoom: 5
+        center: fromLonLat([10.1667, 46.2167]),
+        zoom: 10
     })
 });
 
@@ -95,26 +95,25 @@ map.addControl(layerSwitcher);
 //OPTIONAL
 //Add the Bing Maps layers
 var BING_MAPS_KEY = "AqbDxABFot3cmpxfshRqLmg8UTuPv_bg69Ej3d5AkGmjaJy_w5eFSSbOzoHeN2_H";
-var bingRoads = new Tile({
-    title: 'Bing Maps—Roads',
+var aerialWithLabelsOnDemand = new Tile({
+    title: 'Bing Maps—AerialWithLabelsOnDemand',
     type: 'base',
     visible: false,
     source: new BingMaps({
         key: BING_MAPS_KEY,
-        imagerySet: 'Road'
+        imagerySet: 'AerialWithLabelsOnDemand'
     })
 });
-
-var bingAerial = new Tile({
-    title: 'Bing Maps—Aerial',
+var canvasDark = new Tile({
+    title: 'Bing Maps—CanvasDark',
     type: 'base',
     visible: false,
     source: new BingMaps({
         key: BING_MAPS_KEY,
-        imagerySet: 'Aerial'
+        imagerySet: 'CanvasDark'
     })
 });
-basemapLayers.getLayers().extend([bingRoads, bingAerial]);
+basemapLayers.getLayers().extend([aerialWithLabelsOnDemand,canvasDark]);
 
 //Add the Stadia Maps layers
 var stadiaWatercolor = new Tile({
@@ -133,8 +132,18 @@ var stadiaToner = new Tile({
         layer: 'stamen_toner'
     })
 })
+var stadiaSmoothDark = new Tile({
+    title: "Stadia Smooth Dark",
+    type: "base",
+    visible: false,
+    source: new StadiaMaps({
+        layer: 'alidade_smooth_dark'
+    })
+})
+
+
 //basemapLayers.addLayer(stadiaWatercolor);
-basemapLayers.getLayers().extend([stadiaWatercolor, stadiaToner]);
+basemapLayers.getLayers().extend([stadiaWatercolor, stadiaToner, stadiaSmoothDark]);
 
 //Add the WFS layer
 let wfsSource = new VectorSource()
