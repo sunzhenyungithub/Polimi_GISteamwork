@@ -74,7 +74,7 @@ let map = new Map({
     layers: [basemapLayers, overlayLayers],
     view: new View({
         center: fromLonLat([10.1667, 46.2167]),
-        zoom: 10
+        zoom: 9
     })
 });
 
@@ -83,7 +83,7 @@ map.addControl(new ScaleLine());
 map.addControl(new FullScreen());
 map.addControl(new MousePosition({
     coordinateFormat: createStringXY(4),
-    projection: 'EPSG:4326',
+    projection: 'EPSG:32632',
     className: 'custom-control',
     placeholder: '0.0000, 0.0000'
 }));
