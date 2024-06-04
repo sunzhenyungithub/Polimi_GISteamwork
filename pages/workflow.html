@@ -191,10 +191,9 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 										<p>
 											Extract susceptibility map from classification and confidence layer by raster calculator.
 										</p>
-										<ul><br>
+										<ul>
 										<div style="display: flex; gap: 0.2px;">
-												<a href="../images/susceptibilityMap_original.png" ><img src="../images/susceptibilityMap_original.png" alt=""  style="width: 70%;"/></a>
-												<a href="../images/susceptibility_reclassified_resampled.png"><img src="../images/susceptibility_reclassified_resampled.png" alt=""  style="width: 70%;"/></a>
+												<a href="../images/susceptibilityMap_original.png" ><img src="../images/susceptibilityMap_original.png" alt=""  style="width: 50%;"/></a>
 											</div>
 										</ul>
 									</article>
@@ -218,6 +217,9 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 										<h3>
 											Step 1: map reclassification
 										</h3>
+										<code>
+											( "classification@1"= 2 ) * "confidence@1" + "classification@1"= 1 ) * (100 - "confidence@1")
+										</code>
 										<p>
 											Reclassify the susceptibility raster map using raster calculator.
 										</p>
@@ -226,6 +228,10 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 										<h3>
 											Step 2: process needed layers
 										</h3>
+										<div style="display: flex; gap: 0.2px;">
+											<a href="../images/susceptibility_reclassified_resampled.png"><img src="../images/susceptibility_reclassified_resampled.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/population.png"><img src="../images/population.png" alt=""  style="width: 70%;"/></a>
+										</div>
 										<p>
 											Resample the reclassified susceptibility raster map and clip the population layer.
 										</p>
