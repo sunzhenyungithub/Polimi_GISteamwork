@@ -44,10 +44,11 @@
 						<article id="main" class="special">
 							<header>
 								<h2>Workflow</h2>
-								<p>
+								<a href="../images/lab%20workflow%202.jpg"><img src="../images/lab%20workflow%202.jpg" class="col-md-8" style="width: 50%; border: 2px solid grey"></a>
+								<p style="padding-top: 20px">
 								The analysis of landslide susceptibility involved different factors of environment for the raw data, we need to process them in professional ways based on the GIS theory.
 									<br>
-									<img src="../images/study%20area.png" class="col-md-8" style="justify-content: space-around">
+									<a href="../images/study%20area.png" ><img src="../images/study%20area.png" class="col-md-8" style="width: 60%"></a>
 									<br>
 								Here are the data process workflow as following.
 								<br>
@@ -218,7 +219,7 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 											Step 1: map reclassification
 										</h3>
 										<code>
-											( "classification@1"= 2 ) * "confidence@1" + "classification@1"= 1 ) * (100 - "confidence@1")
+											[0, 0.25) = low;<br> [0.25, 0.5) = moderate;<br> [0.5, 0.75) = high;<br> [0.75, 1] = very high;<br>
 										</code>
 										<p>
 											Reclassify the susceptibility raster map using raster calculator.
