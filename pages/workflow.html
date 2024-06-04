@@ -44,27 +44,17 @@
 						<article id="main" class="special">
 							<header>
 								<h2>Workflow</h2>
-								<a href="../images/lab%20workflow%202.jpg"><img src="../images/lab%20workflow%202.jpg" class="col-md-8" style="width: 50%; border: 2px solid grey"></a>
-								<p style="padding-top: 20px">
+								<p>
 								The analysis of landslide susceptibility involved different factors of environment for the raw data, we need to process them in professional ways based on the GIS theory.
 									<br>
-									<a href="../images/study%20area.png" ><img src="../images/study%20area.png" class="col-md-8" style="width: 60%"></a>
+									<a href="../images/study%20area.png" ><img src="../images/study%20area.png" class="col-md-8" style="width: 50%"></a>
 									<br>
 								Here are the data process workflow as following.
+
 								<br>
-									<b>Data preparation:</b> DTM, DUSAF, population distribution, NDVI, vector layers: roads, rivers, and landslide inventory.
-									<ul><br>
-										<div style="display: flex; gap: 0.2px;">
-											<a href="../images/DTM.png" ><img id="DTM" src="../images/DTM.png" alt=""  style="width: 70%;"/></a>
-											<a href="../images/NDVI.png"><img src="../images/NDVI.png" alt=""  style="width: 70%;"/></a>
-											<a href="../images/DUSAF.png"><img src="../images/DUSAF.png" alt=""  style="width: 70%;"/></a>
-										</div>
-											<div style="display: flex; gap: 0.2px;">
-												<a href="../images/river_buffer.png"><img src="../images/river_buffer.png" alt=""  style="width: 70%;"/></a>
-												<a href="../images/road_buffer.png" ><img src="../images/road_buffer.png" alt="" style="width: 70%;"/></a>
-												<a href="../images/fault_buffer.png"><img src="../images/fault_buffer.png" alt="" style="width: 70%;"/></a>
-											</div>
-										</ul>
+								<a href="../images/lab%20workflow%202.jpg"><img src="../images/lab%20workflow%202.jpg" class="col-md-8" style="width: 50%; border: 2px solid grey"></a>
+								<br>
+									<b>Data preparation:</b> DTM, DUSAF, population distribution, NDVI, vector layers: roads, rivers, faults buffer and landslide inventory.
 								</p>
 							</header>
 							<article>
@@ -77,6 +67,57 @@
 								<p>
 									Clip all layers, resample all layers according to DTM resolution, reproject layer into EPSG:32632, rasterize all vector layers except the landslide inventory layer.
 								</p>
+								<ul>
+										<div style="display: flex; gap: 0.2px;">
+											<a href="../images/DTM.png" ><img id="DTM" src="../images/DTM.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/NDVI.png"><img src="../images/NDVI.png" alt=""  style="width: 70%;"/></a>
+											<a href="../images/DUSAF.png"><img src="../images/DUSAF.png" alt=""  style="width: 70%;"/></a>
+										</div>
+											<div style="display: flex; gap: 0.2px;">
+												<a href="../images/river_buffer.png"><img src="../images/river_buffer.png" alt=""  style="width: 70%;"/></a>
+												<a href="../images/road_buffer.png" ><img src="../images/road_buffer.png" alt="" style="width: 70%;"/></a>
+												<a href="../images/fault_buffer.png"><img src="../images/fault_buffer.png" alt="" style="width: 70%;"/></a>
+											</div>
+										</ul>
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+									DTM: Digital Terrain Model: It is a digital representation of the Earth's surface, showing the elevation or height values of the terrain. We can extract other geographic information from this layer.
+
+NDVI:Normalized Difference Vegetation Index. It is a widely used index in GIS and remote sensing to assess and analyze vegetation health and vigor. NDVI is calculated using the reflectance values of near-infrared (NIR) and red light bands captured by remote sensing sensors.
+The formula for calculating NDVI is as follows:
+NDVI = (NIR - Red) / (NIR + Red)
+
+Buffer layer of rivers, roads, faults. Buffer is essentially a zone of influence or a distance-based boundary that surrounds a feature. It is created by measuring a specified distance around the feature and generating a new geometry that represents the buffer area.
+
+DUSAF
+Land Use Designation for Agricultural and Forestry Soils. It represents a classification system used in Italy to categorize and manage land based on its intended use for agricultural and forestry purposes.
+
+landslide inventory.
+ A systematic collection and documentation of information about landslides that have occurred within a specific area or region. It involves the compilation of data on the location, characteristics, and impact of landslides for the purpose of analysis, assessment, and management of landslide hazards.
+
+								</p>
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+									NDVI:Normalized Difference Vegetation Index. It is a widely used index in GIS and remote sensing to assess and analyze vegetation health and vigor. NDVI is calculated using the reflectance values of near-infrared (NIR) and red light bands captured by remote sensing sensors.
+The formula for calculating NDVI is as follows:
+<code>NDVI = (NIR - Red) / (NIR + Red)</code>
+								</p>
+
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+									Buffer layer of rivers, roads, faults. Buffer is essentially a zone of influence or a distance-based boundary that surrounds a feature. It is created by measuring a specified distance around the feature and generating a new geometry that represents the buffer area.
+								</p>
+
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+DUSAF: Land Use Designation for Agricultural and Forestry Soils. It represents a classification system used in Italy to categorize and manage land based on its intended use for agricultural and forestry purposes.
+								</p>
+
+								<p align="justify">
+									<span><i class="fa fa-arrow-circle-right"></i></span>
+Landslide inventory: A systematic collection and documentation of information about landslides that have occurred within a specific area or region. It involves the compilation of data on the location, characteristics, and impact of landslides for the purpose of analysis, assessment, and management of landslide hazards. 								</p>
+
+
 							</article>
 							<article>
 								<h3>
@@ -102,7 +143,13 @@
 									Step 3: define and filter NLS area
 								</h3>
 								<p>
-									Depending on the slope angle, filter out the areas probably not landslide and very small area(threshold is 100pixelss), remove NLS areas that overlap with Landslide Inventory.
+									Depending on the slope angle, use raster calculator to filter out the areas probably not landslide
+																		<br>
+									(
+									<code>
+										"slope@1" &lt; 20 OR "slope@1" &gt; 70
+									</code>
+									) and very small areas(threshold is 100pixels), remove NLS areas that overlap with Landslide inventory layer.
 								</p>
 							</article>
 
@@ -121,9 +168,6 @@
 										<h3>
 											Step 2: data generation and labelling
 										</h3>
-										<div style="display: flex; gap: 0.2px;">
-												<a href="../images/training_test_samples.png" ><img src="../images/training_test_samples.png" alt=""  style="width: 50%;"/></a>
-											</div>
 										<p>
 
 Generation 1000 data point and set training data and test data ration as 7/3, in which have same number of hazard=1 and hazard=2.
@@ -160,6 +204,9 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 											</tr>
 										  </tbody>
 										</table>
+										<div style="display: flex; gap: 0.2px;">
+												<a href="../images/training_test_samples.png" ><img src="../images/training_test_samples.png" alt=""  style="width: 50%;"/></a>
+											</div>
 									</article>
 								</header>
 
@@ -192,7 +239,10 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 										<p>
 											Extract susceptibility map from classification and confidence layer by raster calculator.
 										</p>
-										<ul>
+										<code>
+											("classification@1"= 2 ) * "confidence@1" + ( "classification@1"= 1 ) * (100 - "confidence@1")
+										</code>
+										<ul style="padding-top: 30px">
 										<div style="display: flex; gap: 0.2px;">
 												<a href="../images/susceptibilityMap_original.png" ><img src="../images/susceptibilityMap_original.png" alt=""  style="width: 50%;"/></a>
 											</div>
@@ -218,24 +268,25 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 										<h3>
 											Step 1: map reclassification
 										</h3>
-										<code>
-											[0, 0.25) = low;<br> [0.25, 0.5) = moderate;<br> [0.5, 0.75) = high;<br> [0.75, 1] = very high;<br>
-										</code>
 										<p>
 											Reclassify the susceptibility raster map using raster calculator.
 										</p>
+										<code>
+											1 = low;<br> 2 = moderate;<br> 3 = high;<br> 4 = very high;<br>
+										</code>
 									</article>
+									<br>
 									<article>
 										<h3>
 											Step 2: process needed layers
 										</h3>
+										<p>
+											Resample the reclassified susceptibility raster map and clip the population layer.
+										</p>
 										<div style="display: flex; gap: 0.2px;">
 											<a href="../images/susceptibility_reclassified_resampled.png"><img src="../images/susceptibility_reclassified_resampled.png" alt=""  style="width: 70%;"/></a>
 											<a href="../images/population.png"><img src="../images/population.png" alt=""  style="width: 70%;"/></a>
 										</div>
-										<p>
-											Resample the reclassified susceptibility raster map and clip the population layer.
-										</p>
 										<!-- On rows -->
 									</article>
 									<article>
@@ -245,7 +296,19 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 										<p>
 											Compute the count of each susceptibility class and show them in a chart.
 										</p>
-										<!-- On rows -->
+										<p>
+																						Development of WebGIS
+											<br>
+											The last step is to show our result on a WebGIS platform. Through some development tools we can publish all the geographic data at a webpage and understand the landslide susceptibility assessment in a convenient way with different base maps.
+										</p>
+										<p align="justify">
+											<br><b>Material: </b> Processed Raster layers, Processed Vector layers, Styles(SLD)
+											Development Tool
+											Vite, Node, Openlayers
+											<br><b>GIS Platform:</b> <a href="https://geoserver.org">Geoserver</a>, <a href="https://www.qgis.org/en/site/"> QGIS(Data processe and analyse)</a>
+											<br><b>Deployment Platform:</b> <a href="http://github.com">Github</a>
+
+										</p>
 									</article>
 										<a href="/pages/results.html" class="button btn-info">Results</a>
 								</header>
