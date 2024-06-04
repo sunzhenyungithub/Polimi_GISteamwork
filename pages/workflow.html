@@ -85,19 +85,6 @@
 								<p align="justify">
 									<span><i class="fa fa-arrow-circle-right"></i></span>
 									DTM: Digital Terrain Model: It is a digital representation of the Earth's surface, showing the elevation or height values of the terrain. We can extract other geographic information from this layer.
-
-NDVI:Normalized Difference Vegetation Index. It is a widely used index in GIS and remote sensing to assess and analyze vegetation health and vigor. NDVI is calculated using the reflectance values of near-infrared (NIR) and red light bands captured by remote sensing sensors.
-The formula for calculating NDVI is as follows:
-NDVI = (NIR - Red) / (NIR + Red)
-
-Buffer layer of rivers, roads, faults. Buffer is essentially a zone of influence or a distance-based boundary that surrounds a feature. It is created by measuring a specified distance around the feature and generating a new geometry that represents the buffer area.
-
-DUSAF
-Land Use Designation for Agricultural and Forestry Soils. It represents a classification system used in Italy to categorize and manage land based on its intended use for agricultural and forestry purposes.
-
-landslide inventory.
- A systematic collection and documentation of information about landslides that have occurred within a specific area or region. It involves the compilation of data on the location, characteristics, and impact of landslides for the purpose of analysis, assessment, and management of landslide hazards.
-
 								</p>
 								<p align="justify">
 									<span><i class="fa fa-arrow-circle-right"></i></span>
@@ -275,7 +262,7 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 											Reclassify the susceptibility raster map using raster calculator.
 										</p>
 										<code>
-											1 = low;<br> 2 = moderate;<br> 3 = high;<br> 4 = very high;<br>
+											[0, 0.25) = 1;<br> [0.25, 0.5) = 2;<br>[0.5, 0.75) = 3;<br> [0.75, 1] = 4 = very high;<br>
 										</code>
 									</article>
 									<br>
@@ -306,8 +293,7 @@ Generation 1000 data point and set training data and test data ration as 7/3, in
 										</p>
 										<p align="justify">
 											<br><b>Material: </b> Processed Raster layers, Processed Vector layers, Styles(SLD)
-											Development Tool
-											Vite, Node, Openlayers
+											<br><b>Development Tool:</b> Vite, Node, Openlayers
 											<br><b>GIS Platform:</b> <a href="https://geoserver.org">Geoserver</a>, <a href="https://www.qgis.org/en/site/"> QGIS(Data processe and analyse)</a>
 											<br><b>Deployment Platform:</b> <a href="http://github.com">Github</a>
 
