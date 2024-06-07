@@ -246,74 +246,37 @@ map.addControl(new MousePosition({
 let layerSwitcher = new LayerSwitcher({});
 
 map.addControl(layerSwitcher)
-// Функция для создания слайдера непрозрачности
-function createOpacitySlider(layer, sliderId) {
-  var sliderHTML = `
+
+function createOpacitySlider(layer) {
+  var layerTitle = layer.get('title');
+  var sliderId = layerTitle.replace(/\s+/g, '-') + '-opacity';
+  var controlContainer = document.getElementById('opacity-control');
+  var controlDiv = document.createElement('div');
+  controlDiv.innerHTML = `
+    <label for="${sliderId}">${layerTitle}</label>
     <input type="range" id="${sliderId}" class="opacity-slider" min="0" max="1" step="0.1" value="${layer.getOpacity()}">
   `;
-  return sliderHTML;
-}
+  controlContainer.appendChild(controlDiv);
 
-// Получаем все элементы с классом "panel"
-var panels = document.getElementsByClassName('panel');
-
-// Функция для поиска слоя Image по названию
-function findImageLayer(layerGroup, title) {
-  // Итерируем по всем слоям в группе
-  return layerGroup.getLayers().getArray().find(function(layer) {
-
-    if (layer instanceof Group) {
-      // Рекурсивно ищем в подгруппах
-      return findImageLayer(layer, title);
-    } else if (layer.get('title') === title) {
-        // Если найден слой с совпадающим названием, возвращаем его
-      return layer;
-    }
+  // Обработка события изменения значения слайдера
+  var slider = document.getElementById(sliderId);
+  slider.addEventListener('input', function() {
+    var opacity = parseFloat(this.value);
+    layer.setOpacity(opacity);
   });
 }
 
-// Итерируем по каждой коллекции в panels
-Array.from(panels).forEach(function(panel) {
-  // Получаем все элементы с классом "layer" внутри текущей панели
-  var layerElements = panel.getElementsByClassName('layer');
-
-  // Добавление слайдеров для каждого слоя
-  Array.from(layerElements).forEach(function(layerElement) {
-    // Получаем название слоя из метаданных
-    var layerTitle = layerElement.textContent.trim();
-
-    // Находим соответствующий слой на карте по названию
-    var layer = findImageLayer(map, layerTitle);
-
-    // Если слой найден, добавляем слайдер непрозрачности
-    if (layer) {
-      // Создаем уникальный ID для слайдера
-      var sliderId = layerTitle.replace(/\s+/g, '-') + '-opacity';
-
-      // Создаем HTML для слайдера непрозрачности
-      var sliderHTML = createOpacitySlider(layer, sliderId);
-
-      // Вставляем слайдер после элемента слоя
-      layerElement.insertAdjacentHTML('beforeend', sliderHTML);
-
-      // console.log(layerElement)
-      // Обработка события изменения значения слайдера
-      var slider = document.getElementById(sliderId);
-      slider.addEventListener('input', function() {
-        var opacity = parseFloat(this.value);
-        layer.setOpacity(opacity);
-      });
-    }
-  });
+// Добавление слайдеров для всех слоев
+map.getLayers().forEach(function(layerGroup) {
+  if (layerGroup instanceof LayerGroup) {
+    layerGroup.getLayers().forEach(function(layer) {
+      createOpacitySlider(layer);
+    });
+  } else {
+    createOpacitySlider(layerGroup);
+  }
 });
-var panels = document.getElementsByClassName('panel');
 
-// Итерируем по каждой коллекции в panels
-Array.from(panels).forEach(function(panel) {
-    // Получаем все элементы с классом "layer" внутри текущей панели
-    var layerElements = panel.getElementsByClassName('layer');
-    console.log(layerElements)
-});
 //OPTIONAL
 //Add the Bing Maps layers
 var BING_MAPS_KEY = "AqbDxABFot3cmpxfshRqLmg8UTuPv_bg69Ej3d5AkGmjaJy_w5eFSSbOzoHeN2_H";
