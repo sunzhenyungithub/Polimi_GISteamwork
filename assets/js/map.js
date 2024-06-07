@@ -27,14 +27,14 @@ let basemapLayers = new Group({
 })
 
 var roads = new Image({
-    title: "Roads",
+    title: "Roads Buffer",
     source: new ImageWMS({
         url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
         params: { 'LAYERS': 'gisgeoserver_19:road_raster' }
     })
 });
 var rivers = new Image({
-    title: "Rivers",
+    title: "Rivers Buffer",
     source: new ImageWMS({
         url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
         params: { 'LAYERS': 'gisgeoserver_19:river_raster' }
@@ -42,7 +42,7 @@ var rivers = new Image({
 });
 
 var faults = new Image({
-    title: "Faults",
+    title: "Faults Buffer",
     source: new ImageWMS({
         url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
         params: { 'LAYERS': 'gisgeoserver_19:fault_raster' }
@@ -321,32 +321,6 @@ var stadiaSmoothDark = new Tile({
 //basemapLayers.addLayer(stadiaWatercolor);
 basemapLayers.getLayers().extend([stadiaWatercolor, stadiaToner, stadiaSmoothDark]);
 
-// This allows to use the function in a callback!
-function loadFeatures(response) {
-    wfsSource.addFeatures(new GeoJSON().readFeatures(response))
-}
-// This is not a good practice, but works for the jsonp.
-window.loadFeatures = loadFeatures;
-
-
-var base_url = "https://www.gis-geoserver.polimi.it/geoserver/gis/ows?";
-var wfs_url = base_url;
-wfs_url += "service=WFS&"
-wfs_url += "version=2.0.0&"
-wfs_url += "request=GetFeature&"
-wfs_url += "typeName=gis%3ACOL_water_areas&"
-wfs_url += "outputFormat=text%2Fjavascript&"
-wfs_url += "srsname=EPSG:3857&"
-wfs_url += "format_options=callback:loadFeatures"
-
-console.log(wfs_url);
-
-map.once('postrender', (event) => {
-    // Load the WFS layer
-    $.ajax({ url: wfs_url, dataType: 'jsonp' });
-
-})
-
 //Add the code for the Pop-up
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -376,26 +350,6 @@ $(document).ready(function () {
                 feature.get('NAME') +
                 '</br><b>Description: </b>' +
                 feature.get('HYC_DESCRI');
-        } else {
-            //Only if the colombiaRoads layer is visible, do the GetFeatureInfo request
-            if (colombiaRoads.getVisible()) {
-                var viewResolution = (map.getView().getResolution());
-                var url = colombiaRoads.getSource().getFeatureInfoUrl(event.coordinate, viewResolution, 'EPSG:3857', { 'INFO_FORMAT': 'text/html' });
-                console.log(url);
-
-                if (url) {
-                    var pixel = event.pixel;
-                    var coord = map.getCoordinateFromPixel(pixel);
-                    popup.setPosition(coord);
-                    //We do again the AJAX request to get the data from the GetFeatureInfo request
-                    $.ajax({ url: url })
-                        .done((data) => {
-                            //Put the data of the GetFeatureInfo response inside the pop-up
-                            //The data that arrives is in HTML
-                            content.innerHTML = data;
-                        });
-                }
-            }
         }
     });
 });
