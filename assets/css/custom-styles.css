@@ -103,7 +103,7 @@
 }
   .opacity-control {
       position: absolute;
-      bottom: 10px;
+      bottom: 70px;
       left: 10px;
       background: white;
       padding: 10px;
@@ -123,3 +123,22 @@
       display: block;
       margin-bottom: 5px;
     }
+
+.opacity-button {
+    position: absolute;
+      bottom: 40px;
+      left: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+      background-color: powderblue;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+}
+
+.opacity-button:hover {
+  background-color: lightskyblue;
+}

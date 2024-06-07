@@ -319,7 +319,6 @@ var stadiaSmoothDark = new Tile({
 })
 
 
-//basemapLayers.addLayer(stadiaWatercolor);
 basemapLayers.getLayers().extend([stadiaWatercolor, stadiaToner, stadiaSmoothDark]);
 
 //Add the code for the Pop-up
@@ -331,31 +330,6 @@ var popup = new Overlay({
     element: container
 });
 map.addOverlay(popup);
-
-// The click event handler for closing the popup.
-// This ensures that JQuery ($) is already available in the page.
-$(document).ready(function () {
-    map.on('singleclick', function (event) {
-        //This iterates over all the features that are located on the pixel of the click (can be many)
-        var feature = map.forEachFeatureAtPixel(event.pixel, function (feature, layer) {
-            return feature;
-        });
-
-        //If there is a feature, open the popup by setting a position to it and put the data from the feature
-        if (feature != null) {
-            var pixel = event.pixel;
-            var coord = map.getCoordinateFromPixel(pixel);
-            popup.setPosition(coord);
-            content.innerHTML =
-                '<h5>Colombia Water Areas</h5><br><b>Name: </b>' +
-                feature.get('NAME') +
-                '</br><b>Description: </b>' +
-                feature.get('HYC_DESCRI');
-        }
-    });
-});
-
-
 
 // Adding map event for pointermove
 // The click event handler for closing the popup.
@@ -374,3 +348,15 @@ map.on('pointermove', function(event){
 map.on('moveend', function(event){
     console.log("moved map");
 });
+
+function toggleOpacityControl() {
+  var opacityControl = document.getElementById('opacity-control');
+  if (opacityControl.style.display === 'none') {
+    opacityControl.style.display = 'block';
+  } else {
+    opacityControl.style.display = 'none';
+  }
+}
+
+var toggleButton = document.getElementById('opacity-button');
+toggleButton.addEventListener('click', toggleOpacityControl);
