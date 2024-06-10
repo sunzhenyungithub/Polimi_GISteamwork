@@ -3,16 +3,11 @@ import 'ol-layerswitcher/dist/ol-layerswitcher.css';
 import { Map, View, Overlay } from 'ol';
 import { Tile, Image, Group, Vector } from 'ol/layer';
 import { OSM, ImageWMS, BingMaps, StadiaMaps } from 'ol/source';
-import VectorSource from 'ol/source/Vector';
-import { GeoJSON } from 'ol/format';
 import { fromLonLat } from 'ol/proj';
 import { ScaleLine, FullScreen, MousePosition, ZoomSlider,  } from 'ol/control';
 import LayerSwitcher from 'ol-layerswitcher';
 import { createStringXY } from 'ol/coordinate';
-import { Style, Stroke } from 'ol/style';
-import VectorLayer from 'ol/layer/Vector';
 import LayerGroup from "ol/layer/Group";
-import TileLayer from "ol/layer/Tile";
 
 let osm = new Tile({
     type: "base",
@@ -120,14 +115,6 @@ let dataLayers = new Group({
     layers: dtLayers
 })
 
-var susc = new Image({
-    title: "Aspect",
-    source: new ImageWMS({
-        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
-        params: { 'LAYERS': 'gisgeoserver_19:aspect' }
-    })
-});
-
 var aspect = new Image({
     title: "Aspect",
     source: new ImageWMS({
@@ -202,6 +189,16 @@ var susceptibilityReclass = new Image({
     })
 })
 
+var susceptibility = new Image({
+    title: "LSSusceptibility",
+    source: new ImageWMS({
+        url: 'https://www.gis-geoserver.polimi.it/geoserver/wms',
+        params: { 'LAYERS': 'gisgeoserver_19:LandslideSusceptibilityMap' },
+        opacity: 1,
+    })
+})
+
+
 var cmpLayers = [
         aspect,
         slope,
@@ -210,7 +207,8 @@ var cmpLayers = [
         training,
         population,
         testing,
-        susceptibilityReclass
+        susceptibilityReclass,
+        susceptibility
     ];
 
 cmpLayers.forEach((layer) =>
@@ -258,7 +256,7 @@ function createOpacitySlider(layer) {
   `;
   controlContainer.appendChild(controlDiv);
 
-  // Обработка события изменения значения слайдера
+  // Changing the value of slider
   var slider = document.getElementById(sliderId);
   slider.addEventListener('input', function() {
     var opacity = parseFloat(this.value);
@@ -266,7 +264,7 @@ function createOpacitySlider(layer) {
   });
 }
 
-// Добавление слайдеров для всех слоев
+// Adding slider to all layers
 map.getLayers().forEach(function(layerGroup) {
   if (layerGroup instanceof LayerGroup) {
     layerGroup.getLayers().forEach(function(layer) {
